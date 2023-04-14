@@ -1,0 +1,64 @@
+{% extends "home/navbar.html" %}
+{% block page %}
+{% if request_list %}
+
+<div class="container">
+
+      <div class="col-md-6 offset-md-3">
+        <div class="my-5">
+          <h2
+            class="text-center mb-2"
+            style="font-weight: bold; color: rgb(0, 0, 0)"
+          >
+            Requests
+          </h2>
+    </div>
+</div>
+<table class="containering">
+    <tr > 
+        <th class="text-center styled-header">Student Name</th>
+        <th class="text-center styled-header">Tutor Name</th>
+        <th class="text-center styled-header">Date</th>
+        <th class="text-center styled-header">Start Time</th>
+        <th class="text-center styled-header">End Time</th>
+        <th class="text-center styled-header">Action</th>
+        <!-- <th class="text-center styled-header">Approved/Declined</th> -->
+      </tr>
+{% for request in request_list %}
+<tr>
+<td class="text-center styled-header">{{ request.student }}</td>
+<td class="text-center styled-header">{{ request.tutor }}</td>
+<td class="text-center styled-header">{{ request.session_date }}</td>
+<td class="text-center styled-header">{{ request.session_time }}</td>
+<td class="text-center styled-header">{{ request.pay_rate }}</td>
+<!-- <td class="text-center styled-header">{{ request.status }}</td> -->
+<td class="text-center styled-header"> 
+    {% if user.is_authenticated %}
+    {{request.status}}
+    {% with tutoring_user=user.tutoringuser %}
+    {% if tutoring_user %}
+    {% if tutoring_user.is_tutor %}
+        {% if request.status == 'pending' %}
+        <form action="" method="POST" >
+            {% csrf_token %}
+            <input type="hidden" name="request_id" value="{{ request.id }}">
+            <button type="submit" name="status" value="approved">Accept</button>
+            <button type="submit" name="status" value="rejected">Reject</button>
+        </form>
+        {% else %}
+        <p></p>
+        {% endif %}
+    {% else %}   
+    
+    {% endif %}
+    {% endif %}
+    {% endwith %}
+    {% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<p>You have no requests</p>
+{% endif %}
+{% endblock %}

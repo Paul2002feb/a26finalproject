@@ -1,0 +1,40 @@
+{% extends "home/navbar.html" %}
+{% block page %}
+{% with tutoring_user=user.tutoringuser %}
+    {% if tutoring_user %}
+    <div class="container mt-4" style="text-align: center;">
+    <div class="row"  style="text-align: center;">
+    <h2>{{tutoring_user.full_name}}</h2>
+        <p><strong>Major: </strong>{{tutoring_user.major}}</p>
+        <p><strong>Hourly Rate:</strong> {{tutoring_user.pay_rate}}</p>
+        <p>
+            <strong>Location Preference:</strong>
+            {% for location in tutoring_user.locations %}
+                {{location}}, 
+            {% endfor %}
+        </p>
+        <p>
+            <strong>Online/Virtual:</strong>
+            {% if tutoring_user.is_virtual %}
+                Virtual
+            {% else %}
+                In-person
+            {% endif %}
+        </p>
+        <p>
+            <strong>Courses Tutored:</strong>
+            {% for course in tutoring_user.classes %}
+                {{ course.subject }} {{ course.catalog_nbr }} {{ course }},
+            {% endfor %}
+            <a href='/profile/course/'>
+                <button>Select Courses</button>
+            </a>
+        </p>
+    </div>
+    <a href='/profile/edit_profile/'>
+        <button>Edit</button>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}  
+{% endblock %}

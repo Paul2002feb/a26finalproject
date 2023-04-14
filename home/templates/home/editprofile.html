@@ -1,0 +1,59 @@
+{% extends "home/navbar.html" %}
+{% block page %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Edit Profile</h2>
+      <form method="post" class="form" id="edit-form">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="full_name" class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="full_name" name="full_name" value="{{ tutoring_user.full_name }}">
+        </div>
+        <div class="mb-3">
+          <label for="major" class="form-label">Major</label>
+          <input type="text" class="form-control" id="major" name="major" value="{{ tutoring_user.major }}">
+        </div>
+        <div class="mb-3">
+          <label for="pay_rate" class="form-label">Hourly Rate</label>
+          <input type="number" class="form-control" id="pay_rate" name="pay_rate" value="{{ tutoring_user.pay_rate }}">
+        </div>
+        <div class="mb-3">
+          <label for="locations" class="form-label">Location Preference</label>
+          <ul class="list-group">
+            {% for location in tutoring_user.locations %}
+              <li class="list-group-item">
+                <input type="checkbox" name="remove_location" value="{{ location }}" class="location-checkbox">
+                {{ location }}
+              </li>
+            {% empty %}
+              <li class="list-group-item">No locations selected</li>
+            {% endfor %}
+          </ul>
+          <input type="text" class="form-control mt-2" id="new_location" name="new_location" placeholder="Enter new location">
+        </div>        
+        <div class="mb-3">
+          <label for="is_virtual" class="form-label">Online/In-person</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="is_virtual" id="is_virtual_true" value="true" {% if tutoring_user.is_virtual %}checked{% endif %}>
+            <label class="form-check-label" for="is_virtual_true">
+              Virtual
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="is_virtual" id="is_virtual_false" value="false" {% if not tutoring_user.is_virtual %}checked{% endif %}>
+            <label class="form-check-label" for="is_virtual_false">
+              In-person
+            </label>
+          </div>
+        </div>
+        <input type="hidden" name="locations_to_remove" id="locations_to_remove">
+        <button type="submit" class="btn btn-primary" id="save-btn">
+          Save
+        </button>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock page %}

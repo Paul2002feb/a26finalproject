@@ -1,0 +1,39 @@
+{% extends "home/navbar.html" %} {% load bootstrap5 %} {% bootstrap_css %} {%
+    bootstrap_javascript %} {% bootstrap_messages %} {% load static %} {% load
+    socialaccount %} {% block page %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="my-5">
+            {% if user.is_authenticated %}
+            <h2
+              class="text-center mb-4"
+              style="font-weight: bold; color: rgb(0, 0, 0)"
+            >
+              Welcome, {{ user.username }}!
+            </h2>
+            <p class="text-center" style="font-size: 1.2rem">
+              Please fill out the form below:
+            </p>
+            {% endif %}
+          </div>
+    
+          <div class="card">
+            <div class="card-body">
+              <form action="{% url 'home:tutorform' %}" method="post" class="form">
+                {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block"
+                  style="background-color: rgb(0, 0, 0); border-color: rgb(0, 0, 0)"
+                >
+                  Submit
+                </button>
+                {% endbuttons %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

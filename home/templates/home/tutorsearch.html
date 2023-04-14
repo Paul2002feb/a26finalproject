@@ -1,0 +1,49 @@
+{% extends "home/navbar.html" %} {% block page %}
+<form action="/tutorsearch" method="GET" class="containering">
+  <label for="search-input" class="somecss">Tutor Search:</label>
+
+  <input
+    type="text"
+    class="form-control"
+    id="search-input"
+    name="search-input"
+    placeholder="Search for tutors..."
+    required
+  /><br /><br />
+
+  <div class="row h-5 justify-content-center align-items-center">
+    <!-- <div class="col-auto"> -->
+    <button class="btn btn-primary" type="submit">Search</button>
+
+    <!-- </div> -->
+  </div>
+</form>
+{% if tutor_list %}
+<h2 class="containerizer">Results:</h2>
+<table class="containering">
+  <tr>
+    <th class="text-center styled-header">Tutor Name</th>
+    <th class="text-center styled-header">Major</th>
+    <th class="text-center styled-header">Pay Rate</th>
+    <th class="text-center styled-header">Request</th>
+
+  </tr >
+  {% for tutor in tutor_list %} {% if tutor.is_tutor %}
+  <tr >
+    <td class="text-center styled-header">{{ tutor.full_name }}</td>
+    <td class="text-center styled-header">{{ tutor.major }}</td>
+    <td class="text-center styled-header">{{ tutor.pay_rate }}</td>
+    <td class="text-center styled-header">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="tutor_id" value="{{ tutor.id }}" />
+        <input type="date" name="session_date" required />
+        <input type="time" name="session_time" required />
+        <input type="number" name="pay_rate" min="0" step="0.01" required />
+        <button type="submit">Request</button>
+      </form>
+    </td>
+  </tr>
+  {% endif %} {% endfor %}
+</table>
+{% endif %} {% endblock %}

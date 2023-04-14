@@ -1,0 +1,1 @@
+web: gunicorn tutorMe.wsgi --log-file -

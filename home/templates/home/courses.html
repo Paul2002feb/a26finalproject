@@ -1,0 +1,41 @@
+{% extends "home/navbar.html" %}
+{% block page %}
+<head>
+    <title>Course Selection</title>
+</head>
+<form action='/profile/course/' method="GET">
+    {% csrf_token %}
+    <label for="search-input" class="somecss">Course Search:</label>
+    <input type="text" class="form-control" id="search-input" name="search-input" placeholder="Search for courses..." required><br><br>
+    <div class="row h-5 justify-content-center align-items-center">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+{% if courses %}
+    <h2 class="coursesearch">Results:</h2>
+    <form action='/profile/course/' method="POST">
+        {% csrf_token %}
+        <table class="coursesearch">
+            <tr>
+                <th>Select</th>
+                <th>Class Number</th>
+                <th>Course</th>
+                <th>Title</th>
+            </tr>
+            {% for course in courses%}
+                <tr>
+                    <td>
+                        <input type="checkbox" class="course-checkbox" name="selected_courses" value="{{ course.subject }} {{ course.catalog_nbr }} {{ course.descr }}">
+                    </td>
+                    <td>{{ course.subject }} {{ course.catalog_nbr }}</td>
+                    <td>{{ course.class_nbr }}</td>
+                    <td>{{ course.descr }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="row h-5 justify-content-center align-items-center">
+            <button class="btn btn-primary" type="submit">Add Selected Courses</button>
+        </div>
+    </form>
+{% endif %}
+{% endblock %}
