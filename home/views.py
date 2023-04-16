@@ -15,6 +15,7 @@ from django.db.models.functions import Lower
 from django.db.models import Q
 
 #edit
+#committosee
 # Create your views here.
 def home(request):
     return render(request,'home/index.html')
