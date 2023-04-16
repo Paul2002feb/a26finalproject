@@ -16,6 +16,7 @@ from django.db.models import Q
 
 #edit
 #committosee
+#commit
 # Create your views here.
 def home(request):
     return render(request,'home/index.html')
