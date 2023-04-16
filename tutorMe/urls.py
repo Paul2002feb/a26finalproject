@@ -27,6 +27,7 @@ urlpatterns = [
     path('profile/', views.profile_page, name='profile'),
     path('profile/course/', views.search_courses, name='courses'),
     path('profile/edit_profile/', views.edit_profile, name='edit_profile'),
+     path('profile/availability/', views.add_availability, name='availability'),
     # path('tutor_requests/', views.tutor_requests, name='tutor_requests')
 
 ]

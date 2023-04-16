@@ -20,9 +20,9 @@
         <th class="text-center styled-header">Tutor Name</th>
         <th class="text-center styled-header">Date</th>
         <th class="text-center styled-header">Start Time</th>
-        <th class="text-center styled-header">End Time</th>
+        <th class="text-center styled-header">Session Length</th>
+        <th class="text-center styled-header">Description</th>
         <th class="text-center styled-header">Action</th>
-        <!-- <th class="text-center styled-header">Approved/Declined</th> -->
       </tr>
 {% for request in request_list %}
 <tr>
@@ -30,7 +30,8 @@
 <td class="text-center styled-header">{{ request.tutor }}</td>
 <td class="text-center styled-header">{{ request.session_date }}</td>
 <td class="text-center styled-header">{{ request.session_time }}</td>
-<td class="text-center styled-header">{{ request.pay_rate }}</td>
+<td class="text-center styled-header">{{ request.duration }} min</td>
+<td class="text-center styled-header">{{ request.description }}</td>
 <!-- <td class="text-center styled-header">{{ request.status }}</td> -->
 <td class="text-center styled-header"> 
     {% if user.is_authenticated %}

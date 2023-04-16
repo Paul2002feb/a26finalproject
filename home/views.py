@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
@@ -38,19 +39,22 @@ def search_tutors(request):
         if tutor:
             session_date = request.POST.get('session_date')
             session_time = request.POST.get('session_time')
-            pay_rate = request.POST.get('pay_rate')
+            session_duration = request.POST.get('session_size')
+            description = request.POST.get('description')
             student = request.user
+         
             tutor_request = TutorRequest.objects.create(
                 student=student,
                 tutor=tutor.user,
                 session_date=session_date,
                 session_time=session_time,
-                pay_rate=pay_rate,
+                duration = session_duration,
+                description=description,
                 status='pending'
             )
             print(tutor_request)
             tutor_request.save()
-            return redirect('/tutorsearch')  # replace with the appropriate URL for the student dashboard
+            return redirect('/requestlist')  # replace with the appropriate URL for the student dashboard
         else:
             print('failed')
             return render(request, 'home/tutorsearch.html', {'error': 'Tutor not found'})
@@ -62,6 +66,7 @@ def search_tutors(request):
             tutor_list = TutoringUser.objects.filter(
                 Q(full_name__icontains=input) | Q(pay_rate__icontains=input) | Q(major__icontains=input) | Q(classes__icontains=input)
             )
+            print(tutor_list)
             return render(request, 'home/tutorsearch.html', {'tutor_list': tutor_list})
     return render(request,'home/tutorsearch.html')
 
@@ -85,7 +90,7 @@ def view_requests(request):
                 tutor_request = TutorRequest.objects.get(id=request_id)
                 # Update the status of the tutor_request
                 tutor_request.status = status
-                tutor_request.save()
+                tutor_request.save() 
                 print(tutor_request.status)
                 return redirect("/requestlist")  # Redirect to the request list page after successful update
             except TutorRequest.DoesNotExist:
@@ -211,3 +216,27 @@ def edit_profile(request):
         form = TutorForm(initial=form_data)
 
     return render(request, 'home/editprofile.html', {'form': form, 'tutoring_user': tutoring_user})
+
+
+def add_availability(request):
+    if request.method == 'POST':
+        date = request.POST['date']
+        time = request.POST['time']
+        # session_length = request.POST['session_length']
+        
+
+        tutor = TutoringUser.objects.get(user=request.user)
+
+        # tutor.add_availability({'date': date,'time': time, 'session_length': session_length})
+        tutor.add_availability({'date': date,'time': time})
+
+        # Save the updated TutoringUser object
+        tutor.save()
+        print(tutor)
+        return redirect('/profile/') 
+    else:
+        tutor = TutoringUser.objects.get(user=request.user)
+        available_slots = tutor.get_availability()
+        print(available_slots)
+       
+        return render(request, 'home/availability.html')  

@@ -1,0 +1,31 @@
+
+  {% extends "home/navbar.html" %}
+{% block page %}
+
+<div class="text-center">
+    <h1>  Set Availability</h1>
+  </div>
+  <div class="d-flex justify-content-center">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Session date:</label>
+                  <input type="date" name="date" id="date" >
+                </div>
+                <div class="mb-3">
+                  <label for="time" class="form-label">Start:</label>
+                  <input type="time" name="time" id="time" required>
+                </div>
+                <!-- <div class="mb-3">
+                    <label for="session_length" class="form-label">Session Length:</label>
+                    <input type="number" name="session_length" id="session_length" required>
+                  </div>
+               -->
+                <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+              </form>
+        </div>
+      </div>
+  </div>
+{% endblock %}

@@ -21,6 +21,29 @@
                 In-person
             {% endif %}
         </p>
+    {% if tutoring_user.is_tutor %}
+        <p>
+            <strong>Available Times:</strong>
+            <table class="containering">
+                <tr > 
+                    <th class="text-center styled-header">Date</th>
+                    <th class="text-center styled-header">Start Time</th>
+                    <!-- <th class="text-center styled-header">Session Length</th> -->
+                  </tr>
+        {% for available in tutoring_user.tutorSession %}
+                  <tr>
+                    <td class="text-center styled-header">{{ available.date }}</td>
+                    <td class="text-center styled-header">{{ available.time }}</td>
+                    <!-- <td class="text-center styled-header">{{ available.session_length }} min</td> -->
+                    </tr>
+
+            {% endfor %}
+        </table>
+            <a href='/profile/availability/'>
+                <button>Add availability</button>
+            </a>
+        </p>
+
         <p>
             <strong>Courses Tutored:</strong>
             {% for course in tutoring_user.classes %}
@@ -30,6 +53,7 @@
                 <button>Select Courses</button>
             </a>
         </p>
+        {% endif %}
     </div>
     <a href='/profile/edit_profile/'>
         <button>Edit</button>
